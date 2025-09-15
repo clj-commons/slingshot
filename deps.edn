@@ -22,4 +22,4 @@
   :jdk11 {}
   :jdk17 {}
   :jdk21 {}
-  :jdk24 {:jvm-opts [#_"--enable-native-access=ALL-UNNAMED"]}}}
+  :jdk24 {}}}
