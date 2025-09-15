@@ -1,8 +1,8 @@
-(ns slingshot.support-test
-  (:require [clojure.test :refer :all]
-            [slingshot.slingshot :refer [throw+ try+]]
-            [slingshot.support :refer :all])
-  (:import (java.util.concurrent ExecutionException)))
+(ns clj-commons.slingshot.support-test
+  (:require
+   [clj-commons.slingshot :refer [throw+ try+]]
+   [clj-commons.slingshot.support :refer :all]
+   [clojure.test :refer [deftest is]]))
 
 (deftest test-parse-try+
   (let [f parse-try+]
@@ -49,7 +49,7 @@
 (deftest test-stack-trace
   (let [{:keys [methodName className]} (-> (stack-trace-fn) first bean)]
     (is (= methodName "invoke"))
-    (is (re-find #"stack_trace_fn" className))))
+    (is (re-find #"stack_trace(_fn)?$" className))))
 
 (deftest test-resolve-local
   (let [a 4]

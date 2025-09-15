@@ -1,0 +1,44 @@
+;; all tasks that run tests can also accept:
+;;   all       - run tests against all supported Clojure versions
+;;   1.<N>     - run only against the specified Clojure version (defaults to 1.8)
+;;   jdk11/jdk17/jdk21/jdk24 - indicate which JDK you are using (defaults to jdk24)
+{:tasks
+ {:requires [[clojure.string :as str]]
+
+  test {:doc "Run the test suite."
+        :task
+        (let [all?     (some #{"all"} *command-line-args*) ; test all clojure versions?
+              versions (or (seq (filter (fn [v] (str/starts-with? v "1."))
+                                        *command-line-args*))
+                           ["1.8"])
+              base-jdk (first (filter (fn [v] (str/starts-with? v "jdk"))
+                                      *command-line-args*))
+              jdk      (or base-jdk
+                           ;; sean's local default:
+                           "jdk24")]
+          (doseq [v (if all? ["1.8" "1.9" "1.10" "1.11" "1.12"] versions)]
+            (println "\nTesting Clojure" v)
+            (shell "clojure"
+                   (str "-M"
+                        (str ":" v)
+                        ":test:runner"
+                        ;; add jdk-specific alias if provided
+                        ":" jdk))))}
+
+  test:all {:doc "Run the test suite for all Clojure versions."
+            :task (binding [*command-line-args* (conj *command-line-args* "all")]
+                    (run 'test))}
+
+  -snapshot {:doc "Return snapshot options, if requested."
+             :task (->> (if (some #{"snapshot"} *command-line-args*)
+                          [:snapshot true]
+                          [])
+                        (map str))}
+
+  ci {:doc "Run the CI pipeline of tests and build the JAR."
+      :depends [test:all]
+      :task (apply shell "clojure -T:build jar" (run '-snapshot))}
+
+  ci:deploy {:doc "Deploy the JAR we just built to Clojars."
+             :depends [ci]
+             :task (apply shell "clojure -T:build deploy" (run '-snapshot))}}}

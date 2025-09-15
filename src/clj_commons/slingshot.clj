@@ -1,5 +1,6 @@
-(ns slingshot.slingshot
-  (:require [slingshot.support :as s]))
+(ns clj-commons.slingshot
+  (:require
+   [clj-commons.slingshot.support :as s]))
 
 (defmacro try+
   "Like the try special form, but with enhanced catch clauses and an

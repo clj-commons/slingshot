@@ -1,5 +1,6 @@
-(ns slingshot.support
-  (:require [clojure.walk]))
+(ns clj-commons.slingshot.support
+  (:require
+   [clojure.walk]))
 
 (defn appears-within?
   "Returns true if x appears within coll at any nesting depth"

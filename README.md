@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/scgilardi/slingshot.svg?branch=master)](https://travis-ci.org/scgilardi/slingshot) [![Dependency Status](https://www.versioneye.com/user/projects/54d57a7b3ca0840b1900063a/badge.svg?style=flat)](https://www.versioneye.com/user/projects/54d57a7b3ca0840b1900063a)
+[![Clojars Project](https://img.shields.io/clojars/v/org.clj-commons/slingshot.svg)](https://clojars.org/org.clj-commons/slingshot)
+[![cljdoc badge](https://cljdoc.org/badge/org.clj-commons/slingshot)](https://cljdoc.org/d/org.clj-commons/slingshot)
+[![Clojure CI Release](https://github.com/clj-commons/slingshot/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/clj-commons/slingshot/actions/workflows/test-and-release.yml) [![Clojure CI Master](https://github.com/clj-commons/slingshot/actions/workflows/test-and-snapshot.yml/badge.svg)](https://github.com/clj-commons/slingshot/actions/workflows/test-and-snapshot.yml) [![Clojure CI Pull Request](https://github.com/clj-commons/slingshot/actions/workflows/test.yml/badge.svg)](https://github.com/clj-commons/slingshot/actions/workflows/test.yml)
 
 slingshot
 =========
@@ -115,15 +117,23 @@ Enhanced throw and catch for Clojure
 Usage
 -----
 
-project.clj
+`deps.edn`:
 
-[![Clojars Project](http://clojars.org/slingshot/latest-version.svg)](http://clojars.org/slingshot)
+```clojure
+org.clj-commons/slingshot {:mvn/version "0.13.next"}
+```
 
-tensor/parse.clj
+`project.clj`:
+
+```clojure
+[org.clj-commons/slingshot "0.13.next"]
+```
+
+`tensor/parse.clj`:
 
 ```clojure
 (ns tensor.parse
-  (:use [slingshot.slingshot :only [throw+]]))
+  (:require [clj-commons.slingshot :refer [throw+]]))
 
 (defn parse-tree [tree hint]
   (if (bad-tree? tree)
@@ -131,13 +141,13 @@ tensor/parse.clj
     (parse-good-tree tree hint)))
 ```
 
-math/expression.clj
+`math/expression.clj`:
 
 ```clojure
 (ns math.expression
   (:require [tensor.parse]
-            [clojure.tools.logging :as log])
-  (:use [slingshot.slingshot :only [throw+ try+]]))
+            [clojure.tools.logging :as log]
+            [clj-commons.slingshot :refer [throw+ try+]]))
 
 (defn read-file [file]
   (try+
@@ -158,7 +168,7 @@ Credits
   Based on clojure.contrib.condition, data-conveying-exception,
   discussions on the clojure mailing list and wiki and discussions and
   implementations by Steve Gilardi, Phil Hagelberg, and Kevin Downey.
-  
+
 Status
 -------
 
@@ -171,7 +181,7 @@ Status
 License
 -------
 
-  Copyright &copy; 2011-2019 Stephen C. Gilardi, Kevin Downey, and
-  Phil Hagelberg
+  Copyright &copy; 2011-2025 Stephen C. Gilardi, Kevin Downey, and
+  Phil Hagelberg; additional work after the move to clj-commons by Sean Corfield.
 
   Distributed under the Eclipse Public License, the same as Clojure.

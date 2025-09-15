@@ -1,8 +1,11 @@
-(ns slingshot.slingshot-test
-  (:require [clojure.test :refer :all]
-            [slingshot.slingshot :refer :all]
-            [clojure.string :as str])
-  (:import java.util.concurrent.ExecutionException))
+(ns clj-commons.slingshot-test
+  (:require
+   [clj-commons.slingshot :refer [get-throw-context get-thrown-object throw+
+                                  try+]]
+   [clojure.string :as str]
+   [clojure.test :refer [deftest is testing]])
+  (:import
+   java.util.concurrent.ExecutionException))
 
 (defrecord exception-record [error-code duration-ms message])
 (defrecord x-failure [message])

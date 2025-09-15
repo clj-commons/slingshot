@@ -1,6 +1,7 @@
-(ns slingshot.test
-  (:require [clojure.test :refer :all]
-            [slingshot.slingshot :refer [try+]]))
+(ns clj-commons.slingshot.test
+  (:require
+   [clj-commons.slingshot :refer [try+]]
+   [clojure.test :refer [assert-expr do-report]]))
 
 (defmethod assert-expr 'thrown+? [msg form]
   ;; (is (thrown+? selector expr))

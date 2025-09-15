@@ -1,0 +1,108 @@
+## CHANGES
+
+* v0.13.next in progress
+  - move to clj-commons; rename nses to `clj-commons.*`
+  - switch to CLI / `deps.edn` / `build.clj` / `bb.edn`
+  - add GitHub Actions for CI
+  - drop support for Clojure 1.7 and earlier
+  - clean up `use` and `refer all`
+
+* version 0.12.2
+  - improved interop with ex-info/ex-data
+  - throw+ explicit cause can be nil
+  - tests for more throw+ arguments
+  - started travis-ci builds
+
+* version 0.12.1
+  - internal improvements
+  - documentation updates for correctness, clarity
+
+* version 0.12.0
+  - new optional argument to throw+ allows specifying a Throwable as
+    the cause explicitly
+    - explicit cause overrides the captured cause in a catch
+    - issue 29
+  - now treats all IExceptionInfo objects as data wrappers
+    - catch selectors refer to the map passed in to `ex-info`
+    - issue 35
+  - no longer provides :environment in &throw-context
+    - now compatible with locals clearing
+    - issue 36
+
+* version 0.11.0
+  - add :else option for try+ (issue 34)
+  - improve catch by class to avoid reflection (issue 37)
+  - dropped custom ex-info, ex-data, ex-class and other support for
+    Clojure 1.3.0
+  - modernized project.clj
+  - signed artifacts for clojars
+
+* version 0.10.3
+  - make exception class available from support and add clojure.test
+    support for testing that the proper exception is thrown (issue 21)
+  - remove replace-all and % substitution in source in favor of using
+    let to bind % (issue 22)
+  - key-value pair -> key-values, generalize key-value selector to
+    allow any even number of items in the vector (issue 23)
+
+* version 0.10.2
+  - accept a simple string as a message for throw+ (issue 19)
+  - for catch, only interpret a form as a selector if it contains a %
+    symbol, allows function literals for predicates (issue 20)
+
+* version 0.10.1
+  - fix slingshot version in examples to match release
+  - remove reflection warnings from tests and turn on checking in
+    project.clj [resolves issue 18]
+
+* version 0.10.0
+  - add get-throw-context and reimplement get-thrown-object using it
+    - get-thrown-object will now find stones in cause chains like
+      try+/catch does
+    - clients looking for a uniform map-based interface to reading
+      the object, message, cause, and stack traces of objects thrown
+      by throw or throw+ now have it
+  - shortened default message to "throw+: %s"
+  - reorganize support namespace: context section
+  - remove references to Stone in docs, replace with wrapper
+  - slingshot.Stone -> slingshot.ExceptionInfo
+    - named after similar new class in clojure.lang in 1.4
+  - no longer redundantly stores message, cause, and stack-trace in
+    the payload of ExceptionInfo--now stored only in the like-named
+    member variables
+  - reduced reflection warnings
+  - doc update including moving description of throw context to
+    get-throw context
+  - provide the immediate object wrapper at :wrapper in the context
+    (accessible via get-throw-context or in &throw-context)
+  - use clojure.core's ex-data and ex-info if available, but don't
+    depend on them
+
+* version 0.9.0
+  - retire :wrapper and move :throwable to the context proper
+  - stop using metadata on the context
+  - provide an example in README.md
+  - doc string fixes
+  - change so catch hook always runs even when there are no catch
+    clauses
+  - provide slingshot/get-thrown-object to retrieve the object
+    thrown by throw or throw+ given a Throwable caught within an
+    ordinary try form.
+
+* version 0.8.0
+  - breaking change: slingshot.core -> slingshot.slingshot
+  - remove &thrown-object in favor of a gensym. (the user will never
+    need to refer to it)
+  - simplify/clarify support functions
+
+* version 0.7.2
+  - throw+: introduce &thrown-object to allow both single-evaluation
+    of object and deep substitution of % simultaneously
+
+* version 0.7.1
+  - throw+: fix so that the thrown object is only eval'd once
+
+* version 0.7.0
+  - throw+: specify message as fmt & args rather than a single string
+    - can use % in args (at any depth) to represent the thrown object
+  - support: move small helper functions into letfns
