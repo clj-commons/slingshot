@@ -43,7 +43,7 @@
   corresponding context with t assoc'd as the value for :wrapper, else
   returns nil"
   [^Throwable t]
-  (if-let [data (ex-data t)]
+  (when-let [data (ex-data t)]
     (assoc (make-context t)
       :object (if (::wrapper? (meta data)) (:object data) data)
       :wrapper t)))
@@ -55,7 +55,7 @@
   returns nil."
   [^Throwable t]
   (or (unwrap t)
-      (if-let [cause (.getCause t)]
+      (when-let [cause (.getCause t)]
         (recur cause))))
 
 (defn get-throwable
@@ -131,9 +131,9 @@
   [catch-clauses throw-sym threw?-sym]
   (letfn
       [(class-selector? [selector]
-         (if (symbol? selector)
+         (when (symbol? selector)
            (let [resolved (resolve selector)]
-             (if (class? resolved)
+             (when (class? resolved)
                resolved))))
        (cond-test [selector]
          (letfn
@@ -185,7 +185,7 @@
             (try
               (when-not @~threw?-sym
                 ~@(rest else-clause))
-              ~(if finally-clause
+              ~(when finally-clause
                  finally-clause))))
         finally-clause
         (list finally-clause)))
@@ -196,7 +196,7 @@
   "Expands to sym if it names a local in the current environment or
   nil otherwise"
   [sym]
-  (if (contains? &env sym)
+  (when (contains? &env sym)
     sym))
 
 (defn stack-trace
