@@ -17,10 +17,13 @@
           (let [[v & exprs] exprs]
             (api/list-node
              (list* catch (api/token-node 'Exception) v
-                    (api/list-node
-                     (list (api/token-node 'fn)
-                           (api/vector-node [(api/token-node '%)])
-                           catchee))
+                    (if (or (= 'fn (first catchee-sexpr))
+                            (= 'fn* (first catchee-sexpr)))
+                      catchee
+                      (api/list-node
+                       (list (api/token-node 'fn)
+                             (api/vector-node [(api/token-node '%)])
+                             catchee)))
                     exprs)))
           :else catch-node)))
 
