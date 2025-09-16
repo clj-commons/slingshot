@@ -81,6 +81,7 @@
              (try (throw exception-1)
                   (catch Exception e [:class-exception e])))))
     (testing "IllegalArgumentException thrown by clojure/core"
+      #_{:clj-kondo/ignore [:type-mismatch]}
       (is (= :class-iae (first (mega-try (str/replace "foo" 1 1)))))))
 
   (testing "catch by java class generically"

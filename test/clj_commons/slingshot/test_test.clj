@@ -1,7 +1,7 @@
 (ns clj-commons.slingshot.test-test
   (:require
    [clj-commons.slingshot :refer [throw+]]
-   [clj-commons.slingshot.test]
+   [clj-commons.slingshot.test :refer [thrown+? thrown+-with-msg?]]
    [clojure.test :refer [deftest is]]))
 
 (deftest test-slingshot-test-macros

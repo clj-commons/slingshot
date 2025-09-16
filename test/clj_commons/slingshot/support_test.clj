@@ -1,7 +1,8 @@
 (ns clj-commons.slingshot.support-test
   (:require
    [clj-commons.slingshot :refer [throw+ try+]]
-   [clj-commons.slingshot.support :refer :all]
+   [clj-commons.slingshot.support :refer [*catch-hook* *throw-hook* parse-try+
+                                          resolve-local stack-trace wrap]]
    [clojure.test :refer [deftest is]]))
 
 (deftest test-parse-try+
@@ -54,6 +55,7 @@
 (deftest test-resolve-local
   (let [a 4]
     (is (= 4 (resolve-local a)))
+    #_{:clj-kondo/ignore [:unresolved-symbol]}
     (is (nil? (resolve-local b)))))
 
 (deftest test-wrap
@@ -80,7 +82,7 @@
     (is (= (set (keys @test-hooked))
            (set [:object :message :cause :stack-trace])))
     (is (= "throw-hook-string" (:object @test-hooked))))
-  (binding [*throw-hook* (fn [x] 42)]
+  (binding [*throw-hook* (fn [_] 42)]
     (is (= (throw+ "something") 42))))
 
 (def catch-hooked (atom nil))

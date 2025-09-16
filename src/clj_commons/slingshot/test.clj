@@ -22,6 +22,12 @@
                                     (pr-str e#) '~selector)})
         e#))))
 
+(defmacro thrown+?
+  "(is (thrown+? selector expr))"
+  [_selector _expr]
+  (throw (IllegalStateException.
+          "thrown+? must be used inside an 'is' form")))
+
 (defmethod assert-expr 'thrown+-with-msg? [msg form]
   ;; (is (thrown+-with-msg? s re expr))
   ;; Asserts that evaluating expr throws an object that matches
@@ -47,3 +53,9 @@
                     :actual (format "thrown+-with-msg?: %s did not match %s"
                                     (pr-str e#) '~selector)})
         e#))))
+
+(defmacro thrown+-with-msg?
+  "(is (thrown+-with-msg? selector pattern expr))"
+  [_selector _pattern _expr]
+  (throw (IllegalStateException.
+          "thrown+-with-msg? must be used inside an 'is' form")))
