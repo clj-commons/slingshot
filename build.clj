@@ -16,7 +16,7 @@
 
 (def lib 'org.clj-commons/slingshot)
 (defn- the-version [patch] (format "0.13.%s" patch))
-(def version (the-version "0")) ; 0.13.0 unreleased
+(def version (the-version "0")) ; 0.13.0 latest release
 (def snapshot (the-version "99-SNAPSHOT"))
 (def class-dir "target/classes")
 

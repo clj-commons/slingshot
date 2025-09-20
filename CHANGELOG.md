@@ -1,6 +1,7 @@
 ## CHANGES
 
-* v0.13.next in progress
+* v0.13.0 -- 2025-09-20
+  - add clj-kondo config export
   - move to clj-commons; rename nses to `clj-commons.*`
   - switch to CLI / `deps.edn` / `build.clj` / `bb.edn`
   - add GitHub Actions for CI

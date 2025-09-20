@@ -120,13 +120,13 @@ Usage
 `deps.edn`:
 
 ```clojure
-org.clj-commons/slingshot {:mvn/version "0.13.next"}
+org.clj-commons/slingshot {:mvn/version "0.13.0"}
 ```
 
 `project.clj`:
 
 ```clojure
-[org.clj-commons/slingshot "0.13.next"]
+[org.clj-commons/slingshot "0.13.0"]
 ```
 
 `tensor/parse.clj`:
