@@ -5,6 +5,18 @@
 slingshot
 =========
 
+Maintenance and Future Development
+----------------------------------
+
+Maintenance of Slingshot has moved to clj-commons since the original
+maintainer, Steve Gilardi, has passed away. Issues and PRs from his
+[old Slingshot repo](https://github.com/scgilardi/slingshot) will be
+addressed here over the next few releases.
+
+The library coordinates have changed from `slingshot/slingshot` to
+`org.clj-commons/slingshot`. The namespaces have changed to have a
+`clj-commons.` prefix, e.g. `clj-commons.slingshot`.
+
 Enhanced throw and catch for Clojure
 ------------------------------------
 
