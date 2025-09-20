@@ -109,6 +109,26 @@ Enhanced throw and catch for Clojure
 
   The wrapper is available via the `:wrapper` key in `&throw-context`.
 
+```clojure
+user=> (defn foo [x]
+  #_=>   (throw (ex-info "important message" {:value x})))
+  #_=>
+  #_=> (defn -main []
+  #_=>   (try+
+  #_=>     (foo 5)
+  #_=>     (catch Object e
+  #_=>       (println "caught" e &throw-context))))
+#'user/foo
+#'user/-main
+user=> (-main)
+caught {:value 5} {:object {:value 5}, :message important message, :cause nil,
+ :stack-trace #object[[Ljava.lang.StackTraceElement...],
+ :wrapper #error {
+  :cause important message
+ ...},
+  :throwable #error {...}}
+```
+
   Between being thrown and caught, a wrapper may be further wrapped by
   other Exceptions (e.g., instances of `RuntimeException` or
   `java.util.concurrent.ExecutionException`). `try+` sees through all
