@@ -9,7 +9,7 @@ Maintenance and Future Development
 ----------------------------------
 
 Maintenance of Slingshot has moved to clj-commons since the original
-maintainer, Steve Gilardi, has passed away. Issues and PRs from his
+maintainer, Stephen Gilardi, has passed away. Issues and PRs from his
 [old Slingshot repo](https://github.com/scgilardi/slingshot) will be
 addressed here over the next few releases.
 
