@@ -1,5 +1,8 @@
 ## CHANGES
 
+* v0.13.next in progress
+  * address [clj-commons/slingshot#3](https://github.com/clj-commons/slingshot/issues/3) by merging `and` optimizations from original PR [#55](https://github.com/scgilardi/slingshot/pull/55) by [jbouwman](https://github.com/jbouwman).
+
 * v0.13.0 -- 2025-09-20
   - add clj-kondo config export
   - move to clj-commons; rename nses to `clj-commons.*`
