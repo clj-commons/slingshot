@@ -146,6 +146,25 @@ caught {:value 5} {:object {:value 5}, :message important message, :cause nil,
     side effects) immediately after the code in the `try+` body
     completes only if nothing was thrown.
 
+```clojure
+(try+
+  (throw+ "Boom!")
+  (catch string? s (println "caught string:" s))
+  (else (println "no exception"))
+  (finally (println "always prints!")))
+;; caught string: Boom!
+;; always prints!
+
+
+(try+
+  "Success!"
+  (catch string? s (println "caught string:" s))
+  (else (println "no exception"))
+  (finally (println "always prints!")))
+;; no exception
+;; always prints!
+```
+
 Usage
 -----
 
