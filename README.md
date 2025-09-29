@@ -220,15 +220,6 @@ Credits
   discussions on the clojure mailing list and wiki and discussions and
   implementations by Steve Gilardi, Phil Hagelberg, and Kevin Downey.
 
-Status
--------
-
-  2019-10-21 Based on a recent request from a slingshot user, I am now
-  working toward a 1.0 release, evaluating and discussing existing issues
-  and PRs. Thank you for the continued interest. I'm particularly happy
-  to see the cljs support and look forward to integrating that.
-
-
 License
 -------
 
