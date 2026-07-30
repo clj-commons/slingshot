@@ -129,6 +129,41 @@ caught {:value 5} {:object {:value 5}, :message important message, :cause nil,
   :throwable #error {...}}
 ```
 
+The above example shows that if you `catch Object`, you can catch non-Throwable
+data (as well as wrapped exceptions) and access the full throw context.
+
+You can also catch based on the wrapper:
+
+```clojure
+user=> (defn foo [x]
+  #_=>   (throw (ex-info "important message" {:value x})))
+  #_=>
+  #_=> (defn -main []
+  #_=>   (try+
+  #_=>     (foo 5)
+  #_=>     (catch Exception e
+  #_=>       (println "caught" e &throw-context))))
+#'user/foo
+#'user/-main
+user=> (-main)
+caught #error {
+ :cause important message
+ :data {:value 5}
+ :via
+ [{:type clojure.lang.ExceptionInfo
+   :message important message
+   :data {:value 5}
+   :at [...]}]
+ :trace
+ [[...]]}
+ {:object {:value 5}, :message important message, :cause nil,
+  :stack-trace #object[[Ljava.lang.StackTraceElement...],
+  :wrapper #error {
+   :cause important message
+   ...},
+  :throwable #error {...}}
+```
+
   Between being thrown and caught, a wrapper may be further wrapped by
   other Exceptions (e.g., instances of `RuntimeException` or
   `java.util.concurrent.ExecutionException`). `try+` sees through all

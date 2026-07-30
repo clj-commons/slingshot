@@ -153,28 +153,33 @@
                 `(~selector ~'%))]
            `(let [~'% (:object ~'&throw-context)]
               ~(or (key-values) (selector-form) (predicate)))))
-       (cond-expression [binding-form expressions]
-         `(let [~binding-form (:object ~'&throw-context)]
+       (cond-expression [k binding-form expressions]
+         `(let [~binding-form (~k ~'&throw-context)]
             ~@expressions))
        (transform [[_ selector binding-form & expressions]]
          (if-let [class-selector (class-selector? selector)]
            [`(instance? ~class-selector (:object ~'&throw-context))
-            (cond-expression (with-meta binding-form {:tag selector}) expressions)]
-           [(cond-test selector) (cond-expression binding-form expressions)]))]
+            (cond-expression :object (with-meta binding-form {:tag selector}) expressions)]
+           [(cond-test selector) (cond-expression :object binding-form expressions)]))
+       (transform-wrapper [[_ selector binding-form & expressions]]
+         (when-let [class-selector (class-selector? selector)]
+           [`(instance? ~class-selector (:wrapper ~'&throw-context))
+            (cond-expression :wrapper (with-meta binding-form {:tag selector}) expressions)]))]
     (list
      `(catch Throwable ~'&throw-context
         (reset! ~threw?-sym true)
         (let [~'&throw-context (-> ~'&throw-context get-context *catch-hook*)]
           (cond
-           (contains? ~'&throw-context :catch-hook-return)
-           (:catch-hook-return ~'&throw-context)
-           (contains? ~'&throw-context :catch-hook-throw)
-           (~throw-sym (:catch-hook-throw ~'&throw-context))
-           (contains? ~'&throw-context :catch-hook-rethrow)
-           (~throw-sym)
-           ~@(mapcat transform catch-clauses)
-           :else
-           (~throw-sym)))))))
+            (contains? ~'&throw-context :catch-hook-return)
+            (:catch-hook-return ~'&throw-context)
+            (contains? ~'&throw-context :catch-hook-throw)
+            (~throw-sym (:catch-hook-throw ~'&throw-context))
+            (contains? ~'&throw-context :catch-hook-rethrow)
+            (~throw-sym)
+            ~@(mapcat transform catch-clauses)
+            ~@(mapcat transform-wrapper catch-clauses)
+            :else
+            (~throw-sym)))))))
 
 (defn gen-finally
   "Returns either nil or a list containing a finally clause for a try

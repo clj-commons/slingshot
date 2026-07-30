@@ -518,3 +518,50 @@
         (is (= result23 [exp msg]))
         (is (= result24 [exp fmt-msg]))
         (is (= result25 [exp fmt2-msg]))))))
+
+(deftest test-catch-exception
+  (testing "throw+ Exception"
+    (let [caught (atom false)]
+      (try+
+       (throw+ (Exception. "test-exception"))
+       (catch Exception e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (try+
+       (throw+ (Exception. "test-exception"))
+       (catch Object e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?")))
+  (testing "throw Exception"
+    (let [caught (atom false)]
+      (try+
+       (throw (Exception. "test-exception"))
+       (catch Exception e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (try+
+       (throw (Exception. "test-exception"))
+       (catch Object e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?")))
+  (testing "throw data"
+    (let [caught (atom false)]
+      (try+
+       (throw+ {:msg "test-exception"})
+       (catch Exception e
+         (reset! caught true)
+         (is (= "test-exception" (:msg (ex-data e))))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (try+
+       (throw+ {:msg "test-exception"})
+       (catch Object e
+         (reset! caught true)
+         (is (= "test-exception" (:msg e)))))
+      (is @caught "exception was not caught?"))))
