@@ -120,6 +120,8 @@
   Defaults to identity."}
   *catch-hook* identity)
 
+(def ^{:dynamic true :no-doc true} *catch-wrapper* true)
+
 (defn gen-catch
   "Transforms a seq of catch clauses for try+ into a list containing
   one catch clause for try that implements the specified behavior.
@@ -163,7 +165,7 @@
            [(cond-test selector) (cond-expression :object binding-form expressions)]))
        (transform-wrapper [[_ selector binding-form & expressions]]
          (when-let [class-selector (class-selector? selector)]
-           [`(instance? ~class-selector (:wrapper ~'&throw-context))
+           [`(and *catch-wrapper* (instance? ~class-selector (:wrapper ~'&throw-context)))
             (cond-expression :wrapper (with-meta binding-form {:tag selector}) expressions)]))]
     (list
      `(catch Throwable ~'&throw-context
