@@ -24,4 +24,4 @@
   :jdk17 {}
   :jdk21 {}
   :jdk25 {}
-  :neil {:project {:version "0.13.0"}}}}
+  :neil {:project {:version "0.13.23"}}}}
