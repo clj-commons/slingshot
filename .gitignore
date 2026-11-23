@@ -2,6 +2,7 @@
 .calva/repl.calva-repl
 .clj-kondo/.cache
 .clj-kondo/imports
+.cljconf
 .cpcache
 .lsp/.cache
 .portal/vs-code.edn
@@ -15,4 +16,3 @@
 /target
 pom.xml
 pom.xml.asc
-outdated.txt
