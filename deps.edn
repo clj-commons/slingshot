@@ -23,4 +23,5 @@
   :jdk11 {}
   :jdk17 {}
   :jdk21 {}
-  :jdk25 {}}}
+  :jdk25 {}
+  :neil {:project {:version "0.13.0"}}}}

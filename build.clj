@@ -1,23 +1,15 @@
 (ns build
-  "slingshot's build script.
-
-  clojure -T:build jar
-  clojure -T:build deploy
-
-  Run tests via:
-  bb test
-
-  For more information, run:
-
-  clojure -T:deps:build help/doc"
-  (:refer-clojure :exclude [test])
-  (:require [clojure.tools.build.api :as b]
-            [deps-deploy.deps-deploy :as dd]))
+  "Slingshot's build script. Entirely driven by `bb`."
+  (:require [babashka.deps-deploy :as dd]
+            [babashka.tasks :refer [shell]]
+            [clojure.tools.build.api :as b]
+            [clojure.tools.deps.edn :as deps]))
 
 (def lib 'org.clj-commons/slingshot)
-(defn- the-version [patch] (format "0.13.%s" patch))
-(def version (the-version "1")) ; 0.13.1 unreleased
-(def snapshot (the-version "99-SNAPSHOT"))
+(def version (-> (deps/project-deps) :aliases :neil :project :version))
+(def snapshot
+  (let [[_ m-m rel] (re-find #"(.*)\.(\d+)$" version)]
+    (str m-m "." (inc (parse-long rel)) "-SNAPSHOT")))
 (def class-dir "target/classes")
 
 (defn- pom-template [version]
@@ -47,9 +39,11 @@
            :src-dirs  ["src"]
            :pom-data  (pom-template version))))
 
-(defn jar "Build the JAR file." [opts]
-  (b/delete {:path "target"})
+(defn jar "Build the JAR file."
+  {:org.babashka/cli {:spec {:snapshot {:coerce :boolean}}}}
+  [opts]
   (let [opts (jar-opts opts)]
+    (b/delete {:path "target"})
     (println "\nWriting pom.xml...")
     (b/write-pom opts)
     (println "\nCopying source...")
@@ -58,8 +52,25 @@
     (b/jar opts))
   opts)
 
-(defn deploy "Deploy the JAR to Clojars." [opts]
+(defn deploy "Deploy the JAR to Clojars."
+  {:org.babashka/cli {:spec {:snapshot {:coerce :boolean}}}}
+  [opts]
   (let [{:keys [jar-file] :as opts} (jar-opts opts)]
     (dd/deploy {:installer :remote :artifact (b/resolve-path jar-file)
                 :pom-file (b/pom-path (select-keys opts [:lib :class-dir]))}))
   opts)
+
+;; test-related utilities and tasks:
+
+(defn- get-versions [opts]
+  (if (:all-versions opts) ["1.8" "1.9" "1.10" "1.11" "1.12" "1.13"] ["1.8"]))
+
+(defn run-tests "Run tests for the specified Clojure versions."
+  {:org.babashka/cli {:spec {:all-versions {:coerce :boolean}}}}
+  [opts]
+  (let [versions (get-versions opts)]
+    (doseq [v versions]
+      (println (str "\nTesting Clojure " v))
+      (shell (str "clojure -M"
+                  ":" v
+                  ":test:runner")))))
