@@ -518,3 +518,52 @@
         (is (= result23 [exp msg]))
         (is (= result24 [exp fmt-msg]))
         (is (= result25 [exp fmt2-msg]))))))
+
+(deftest test-catch-exception
+  (testing "throw+ Exception"
+    (let [caught (atom false)]
+      (try+
+       (throw+ (Exception. "test-exception"))
+       (catch Exception e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (try+
+       (throw+ (Exception. "test-exception"))
+       (catch Object e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?")))
+  (testing "throw Exception"
+    (let [caught (atom false)]
+      (try+
+       (throw (Exception. "test-exception"))
+       (catch Exception e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (try+
+       (throw (Exception. "test-exception"))
+       (catch Object e
+         (reset! caught true)
+         (is (= "test-exception" (.getMessage e)))))
+      (is @caught "exception was not caught?")))
+  (testing "throw data"
+    (let [caught (atom false)]
+      (try
+        (try+
+         (throw+ {:msg "test-exception"})
+         (catch Exception _ ; issue #24 et al: unexpectedly does NOT catch throw+ map!
+           (reset! caught true)))
+        (catch Exception e
+          (is (= "test-exception" (:msg (ex-data e))))))
+      (is (not @caught) "exception was unexpectedly caught?"))
+    (let [caught (atom false)]
+      (try+
+       (throw+ {:msg "test-exception"})
+       (catch Object e
+         (reset! caught true)
+         (is (= "test-exception" (:msg e)))))
+      (is @caught "exception was not caught?"))))
