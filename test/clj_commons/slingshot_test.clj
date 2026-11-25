@@ -1,7 +1,7 @@
 (ns clj-commons.slingshot-test
   (:require
    [clj-commons.slingshot :refer [get-throw-context get-thrown-object throw+
-                                  try+]]
+                                  try+ *catch-wrapper*]]
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing]])
   (:import
@@ -552,13 +552,21 @@
       (is @caught "exception was not caught?")))
   (testing "throw data"
     (let [caught (atom false)]
-      (try
-        (try+
-         (throw+ {:msg "test-exception"})
-         (catch Exception _ ; issue #24 et al: unexpectedly does NOT catch throw+ map!
-           (reset! caught true)))
-        (catch Exception e
-          (is (= "test-exception" (:msg (ex-data e))))))
+      (try+
+       (throw+ {:msg "test-exception"})
+       (catch Exception e
+         (reset! caught true)
+         (is (= "test-exception" (:msg (ex-data e))))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (binding [*catch-wrapper* false] ; restores older behavior:
+        (try
+          (try+
+           (throw+ {:msg "test-exception"})
+           (catch Exception _ ; does NOT catch throw+ map
+             (reset! caught true)))
+          (catch Exception e
+            (is (= "test-exception" (:msg (ex-data e)))))))
       (is (not @caught) "exception was unexpectedly caught?"))
     (let [caught (atom false)]
       (try+
@@ -566,4 +574,12 @@
        (catch Object e
          (reset! caught true)
          (is (= "test-exception" (:msg e)))))
+      (is @caught "exception was not caught?"))
+    (let [caught (atom false)]
+      (binding [*catch-wrapper* false] ; restores older behavior:
+        (try+
+         (throw+ {:msg "test-exception"})
+         (catch Object e ; DOES catch throw+ map
+           (reset! caught true)
+           (is (= "test-exception" (:msg e))))))
       (is @caught "exception was not caught?"))))

@@ -2,6 +2,16 @@
   (:require
    [clj-commons.slingshot.support :as s]))
 
+(def ^{:dynamic true
+       :doc "When true, try+ will attempt to catch the wrapper (exception)
+  type if no catch clause matches the wrapped object type.
+
+  Defaults to true. This is a change of behavior in 0.14.0.
+             
+  Bind this to false to disable catching wrapper (exception) types
+  which was the default behavior before version 0.14.0."}
+  *catch-wrapper* true)
+
 (defmacro try+
   "Like the try special form, but with enhanced catch clauses and an
   optional else clause:
@@ -43,10 +53,11 @@
   (let [[expressions catches else finally] (s/parse-try+ body)
         threw? (gensym "threw?")]
     `(let [~threw? (atom false)]
-       (try
-         ~@expressions
-         ~@(s/gen-catch catches `throw+ threw?)
-         ~@(s/gen-finally else finally threw?)))))
+       (binding [s/*catch-wrapper* *catch-wrapper*]
+         (try
+           ~@expressions
+           ~@(s/gen-catch catches `throw+ threw?)
+           ~@(s/gen-finally else finally threw?))))))
 
 (defmacro throw+
   "Like the throw special form, but can throw any object by wrapping

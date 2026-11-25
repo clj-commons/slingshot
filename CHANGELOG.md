@@ -3,6 +3,7 @@
 * v0.13.next in progress
   * address [clj-commons/slingshot#10](https://github.com/clj-commons/slingshot/issues/10) by modernizing the Babashka/build setup, and switching to MAJOR.MINOR.RELEASES going forward, via PR [#11](https://github.com/clj-commons/slingshot/pull/11).
   * address [clj-commons/slingshot#8](https://github.com/clj-commons/slingshot/issues/8) by removing outdated status note.
+  * address [clj-commons/slingshot#5](https://github.com/clj-commons/slingshot/issues/5) by attempting to catch the wrapper (exception) type if no catch clause matches the wrapped object type. _This is potentially a breaking change!_
   * address [clj-commons/slingshot#4](https://github.com/clj-commons/slingshot/issues/4) by merging stacktrace changes from [a20748f](https://github.com/clj-commons/slingshot/commit/a20748fd2d6d4a9020d296a3798e82f136e2bfe2) by [@scgilardi](https://github.com/scgilardi).
   * address [clj-commons/slingshot#3](https://github.com/clj-commons/slingshot/issues/3) by merging `and` optimizations from original PR [#55](https://github.com/scgilardi/slingshot/pull/55) by [@jbouwman](https://github.com/jbouwman).
   * address [scgilardo/slingshot#53](https://github.com/scgilardi/slingshot/issues/53) by adding examples of `else` and `finally`.
