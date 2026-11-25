@@ -15,9 +15,5 @@
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}}}
   :runner {:main-opts ["-m" "cognitect.test-runner"]}
-  :jdk11 {}
-  :jdk17 {}
-  :jdk21 {}
-  :jdk25 {}
   ;; we're not quite at 0.14.x yet but this will make the snapshots correct again!
   :neil {:project {:version "0.14.23"}}}}
