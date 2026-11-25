@@ -216,13 +216,13 @@ Usage
 `deps.edn`:
 
 ```clojure
-org.clj-commons/slingshot {:mvn/version "0.13.0"}
+org.clj-commons/slingshot {:mvn/version "0.14.24"}
 ```
 
 `project.clj`:
 
 ```clojure
-[org.clj-commons/slingshot "0.13.0"]
+[org.clj-commons/slingshot "0.14.24"]
 ```
 
 `tensor/parse.clj`:

@@ -1,6 +1,6 @@
 ## CHANGES
 
-* v0.14.24 in progress
+* v0.14.24 -- 2026-11-25
   * address [clj-commons/slingshot#10](https://github.com/clj-commons/slingshot/issues/10) by modernizing the Babashka/build setup, and switching to MAJOR.MINOR.RELEASES going forward, via PR [#11](https://github.com/clj-commons/slingshot/pull/11).
   * address [clj-commons/slingshot#8](https://github.com/clj-commons/slingshot/issues/8) by removing outdated status note.
   * address [clj-commons/slingshot#5](https://github.com/clj-commons/slingshot/issues/5) by attempting to catch the wrapper (exception) type if no catch clause matches the wrapped object type. _This is potentially a breaking change!_
