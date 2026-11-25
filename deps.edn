@@ -15,4 +15,4 @@
          :extra-deps {io.github.cognitect-labs/test-runner
                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}}}
   :runner {:main-opts ["-m" "cognitect.test-runner"]}
-  :neil {:project {:version "0.14.23"}}}}
+  :neil {:project {:version "0.14.24"}}}}
