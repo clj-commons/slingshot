@@ -6,10 +6,10 @@
        :doc "When true, try+ will attempt to catch the wrapper (exception)
   type if no catch clause matches the wrapped object type.
 
-  Defaults to true. This is a change of behavior in 0.14.0.
+  Defaults to true. This is a change of behavior in 0.14.24.
              
   Bind this to false to disable catching wrapper (exception) types
-  which was the default behavior before version 0.14.0."}
+  which was the default behavior before version 0.14.24."}
   *catch-wrapper* true)
 
 (defmacro try+

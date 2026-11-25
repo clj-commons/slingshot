@@ -24,4 +24,5 @@
   :jdk17 {}
   :jdk21 {}
   :jdk25 {}
-  :neil {:project {:version "0.13.23"}}}}
+  ;; we're not quite at 0.14.x yet but this will make the snapshots correct again!
+  :neil {:project {:version "0.14.23"}}}}

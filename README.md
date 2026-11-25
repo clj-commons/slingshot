@@ -172,7 +172,7 @@ caught #error {
    ...},
   :throwable #error {...}}
 ```
-> Note: `catch Exception` catches the wrapper, not the original object. Prior to 0.14.0, you needed to use `catch Object` to catch non-Throwable objects, and many users were surprised that `catch Exception` did not catch them. Since this change of behavior might be a breaking change for some corner case uses of `catch Exception`, a dynamic variable, `*catch-wrapper*`, is provided to restore the old behavior when bound to `false`.
+> Note: `catch Exception` catches the wrapper, not the original object. Prior to 0.14.24, you needed to use `catch Object` to catch non-Throwable objects, and many users were surprised that `catch Exception` did not catch them. Since this change of behavior might be a breaking change for some corner case uses of `catch Exception`, a dynamic variable, `*catch-wrapper*`, is provided to restore the old behavior when bound to `false`.
 
   Between being thrown and caught, a wrapper may be further wrapped by
   other Exceptions (e.g., instances of `RuntimeException` or
