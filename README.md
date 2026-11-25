@@ -259,7 +259,7 @@ Credits
 License
 -------
 
-  Copyright &copy; 2011-2025 Stephen C. Gilardi, Kevin Downey, and
-  Phil Hagelberg; additional work after the move to clj-commons by Sean Corfield.
+  Copyright &copy; 2011-2026 Stephen C. Gilardi, Kevin Downey, and
+  Phil Hagelberg; additional contributions &copy; 2025-2026 Sean Corfield.
 
   Distributed under the Eclipse Public License, the same as Clojure.
