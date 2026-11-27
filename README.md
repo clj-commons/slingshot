@@ -26,6 +26,8 @@ repository.
 
 > Note: every commit to the **release** branch runs CI (GitHub Actions) and successful runs push a MAJOR.MINOR.(RELEASES+1)-SNAPSHOT build to Clojars so the very latest version of Slingshot is always available either via that [snapshot on Clojars](https://clojars.org/org.clj-commons/slingshot) or via a git dependency on the latest SHA.
 
+> [My AI Usage Statement](https://corfield.org/blog/2026/08/02/ai/)
+
 Enhanced throw and catch for Clojure
 ------------------------------------
 
